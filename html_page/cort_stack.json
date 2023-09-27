@@ -5,7 +5,8 @@
   "data": {
     "url": "https://raw.githubusercontent.com/simingwu001215/simingwu001215.github.io/main/Care_Project/cort_pt_dr.csv"
   },
-  "width": 300,
+   "width": 500,
+  "height": 300,
   "mark": "bar",
   "encoding": {
     "x": {"field": "Hospital", "type": "ordinal", "axis": {"labelAngle": 0}},
