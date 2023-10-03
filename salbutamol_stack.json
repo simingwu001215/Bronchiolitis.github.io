@@ -5,32 +5,69 @@
   "data": {
     "url": "https://raw.githubusercontent.com/simingwu001215/simingwu001215.github.io/main/Care_Project/sal_pt_dr.csv"
   },
-   "width": 500,
+  "width": 500,
   "height": 300,
-  "mark": "bar",
-  "encoding": {
-    "x": {"field": "Hospital", "type": "ordinal", "axis": {"labelAngle": 0}},
-    "y": {
-      "field": "percentage",
-      "type": "quantitative",
-      "axis": {"title": "Percentage Salbutamol (%)"},
-      "stack": "zero"
-    },
-    "color": {
-      "field": "category",
-      "type": "nominal",
-      "legend": {"title": "Category"}
-    },
-    "tooltip": [
-      {"field": "category", "type": "ordinal", "title": "Category"},
-      {"field": "Hospital", "type": "nominal", "title": "Hospital"},
-      {"field": "percentage", "type": "quantitative", "title": "Percentage(%)"},
-      {
-        "field": "target",
-        "type": "quantitative",
-        "title": "Number of patients receives salbutamol "
+  "transform": [
+    {
+      "calculate": "datum.category === 'Got test from doctor' ? 'ordered by treating ED clinician' : (datum.category === 'Got test from someone else' ? 'not ordered by treating clinician' : datum.category)",
+      "as": "category"
+    }
+  ],
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "Hospital",
+          "type": "ordinal",
+          "axis": {"labelAngle": 0}
+        },
+        "y": {
+          "field": "percentage",
+          "type": "quantitative",
+          "axis": {"title": "Percentage Salbutamol(%)"},
+          "scale": {"domain": [0, 100]},
+          "stack": "zero"
+        },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "legend": {"title": "Category"}
+        },
+        "tooltip": [
+          {"field": "category", "type": "ordinal", "title": "Category"},
+          {"field": "Hospital", "type": "nominal", "title": "Hospital"},
+          {
+            "field": "percentage",
+            "type": "quantitative",
+            "title": "Percentage(%)"
+          },
+          {
+            "field": "target",
+            "type": "quantitative",
+            "title": "Number of patients receives salbutamol"
+          }
+        ]
       }
-    ]
-  },
+    },
+    {
+      "mark": "text",
+      "encoding": {
+        "x": {"field": "Hospital", "type": "ordinal"},
+        "y": {
+          "aggregate": "sum",
+          "field": "percentage",
+          "type": "quantitative"
+        },
+        "text": {
+          "aggregate": "sum",
+          "field": "percentage",
+          "type": "quantitative",
+          "format": ".2f"
+        }
+      }
+    }
+  ],
+  "selection": {"grid": {"type": "interval", "bind": "scales"}},
   "config": {}
 }
